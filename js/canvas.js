@@ -17,6 +17,10 @@ $(function(){
 			imgs[name] = img;
 		}
 	);
+
+	var background = new Image();
+	background.src = "img/montana.jpg";
+
 	function goCanvas(){
 		var drag = 0.99;
 		var gravity = 0.5;
@@ -308,8 +312,11 @@ $(function(){
 				++clock;
 
 				// Fade the previous frame
-				c.fillStyle = "rgba(0,0,0,0.3)";
-				c.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+				//c.fillStyle = "rgba(0,0,0,0.3)";
+				//c.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+				c.globalAlpha = 0.3;
+				c.drawImage(background, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+				c.globalAlpha = 1.0;
 
 				// Draw from farthest to nearest
 				particles.sort(compareZPos);
@@ -327,11 +334,15 @@ $(function(){
 			}
 
 			var loop;
-			setTimeout(function() {
-				loop = setInterval(function() {
-					render();
-				}, 40);
-			}, 100);
+
+			background.onload = function() {
+				c.drawImage(background, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+				setTimeout(function() {
+					loop = setInterval(function() {
+						render();
+					}, 40);
+				}, 100);
+			}
 		}
 		
 		setup();
